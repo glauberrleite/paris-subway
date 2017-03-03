@@ -127,7 +127,12 @@ Node::Node(int station, RailColor rail, Node * parent){
 
   } else {
 
-    //this->cost = parent->getCost() + 1;
+    if(parent->getRailColor() != this->railColor){
+      this->cost = parent->getCost() + 5;
+    } else {
+      this->cost = parent->getCost() + 1;
+    }
+
     this->depth = parent->getDepth() + 1;
 
   }
