@@ -8,11 +8,21 @@ using namespace std;
 
 vector<Node *> frontier;
 
+const char * getRailName(RailColor color){
+	switch(color){
+		case BLUE: return "BLUE";
+		case RED: return "RED";
+		case YELLOW: return "YELLOW";
+		case GREEN: return "GREEN";
+		default: return "ERROR";
+	}
+}
+
 // The f function is the function that will determinate what node should
 // be expanded next
-int f(Node * node, int destination){
-    int result = node->getCost();
-    result += Node::linearDistance[node->getStationId() - 1][destination - 1];
+float f(Node * node, int destination){
+    float result = node->getCost();
+    result += (static_cast<float>(Node::linearDistance[node->getStationId() - 1][destination - 1]))/30;
 
     return result;
 }
@@ -34,7 +44,7 @@ Node * search(Node * node, int destination){
       frontier.push_back(successors[i]);
 
   // Choose who will be expanded
-  int min = INT_MAX;
+  float min = INT_MAX;
   int next = 0;
 
   for(int i = 0; i < frontier.size(); ++i)
@@ -48,7 +58,10 @@ Node * search(Node * node, int destination){
 
 void printPath(Node * node){
   if( node != nullptr ){
-    cout << to_string(node->getStationId()) << endl;
+    cout << "E" + to_string(node->getStationId());
+    cout << " => Rail: ";
+    cout << getRailName(node->getRailColor());
+    cout << endl;
     printPath(node->getParent());
   }
 }
@@ -79,8 +92,9 @@ int main(){
   cout << "--------" << endl;
   cout << "Total Depth: ";
   cout << to_string(result->getDepth());
-  cout << "\nTotal Cost: ";
+  cout << "\nEstimate time: ";
   cout << to_string(result->getCost());
+  cout << " hours";
   cout << '\n';
 
   return 0;

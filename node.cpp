@@ -21,7 +21,7 @@ const int Node::linearDistance[14][14] = {
   {32, 24, 18, 17, 20, 20, 17, 30, 28, 23, 39, 37, 5, 0}
 };
 
-int Node::getCost() {
+float Node::getCost() {
   return this->cost;
 }
 
@@ -119,6 +119,7 @@ Node::Node(int station, RailColor rail, Node * parent){
 
   this->stationId = station;
   this->parent = parent;
+  this->railColor = rail;
 
   if(parent == nullptr){
 
@@ -127,10 +128,16 @@ Node::Node(int station, RailColor rail, Node * parent){
 
   } else {
 
+    int distance = linearDistance[this->stationId - 1][this->getParent()->getStationId() - 1];
+
+    // Estimating time based on average velocity of 30 km/h
+    float time = (static_cast<float>(distance))/30;
+
     if(parent->getRailColor() != this->railColor){
-      this->cost = parent->getCost() + 5;
+      // We suppose that switching rails cost +4min
+      this->cost = parent->getCost() + time + 0.066666667;
     } else {
-      this->cost = parent->getCost() + 1;
+      this->cost = parent->getCost() + time;
     }
 
     this->depth = parent->getDepth() + 1;

@@ -8,13 +8,13 @@ class Node {
     std::vector<Node *> buildSuccessors();
     int getStationId();
     Node * getParent();
-    int getCost();
+    float getCost();
     int getDepth();
     RailColor getRailColor();
   private:
     int stationId;
     RailColor railColor;
     Node * parent;
-    int cost;
+    float cost;
     int depth;
 };
