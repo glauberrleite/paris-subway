@@ -10,7 +10,7 @@ vector<Node *> frontier;
 Node * search(Node * node, int destination){
 
   // Check if node is the solution
-  if (node->getStationId == destination)
+  if (node->getStationId() == destination)
     return node;
 
   // Build successors
