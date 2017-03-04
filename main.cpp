@@ -40,8 +40,8 @@ Node * search(Node * node, int destination){
   // Build successors and appending them to the frontier
   vector<Node *> successors = node->buildSuccessors();
 
-  for(int i = 0; i < successors.size(); ++i)
-      frontier.push_back(successors[i]);
+  for(Node * successor : successors)
+      frontier.push_back(successor);
 
   // Choose who will be expanded
   float min = INT_MAX;
@@ -59,8 +59,10 @@ Node * search(Node * node, int destination){
 void printPath(Node * node){
   if( node != nullptr ){
     cout << "E" + to_string(node->getStationId());
-    cout << " => Rail: ";
-    cout << getRailName(node->getRailColor());
+		if(node->getRailColor() != JOKER){
+	    cout << " => Rail: ";
+	    cout << getRailName(node->getRailColor());
+		}
     cout << endl;
     printPath(node->getParent());
   }

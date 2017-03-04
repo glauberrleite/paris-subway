@@ -4,7 +4,7 @@
 class Node {
   public:
     static const int linearDistance[14][14];
-    Node(int start, RailColor rail = BLUE, Node * parent = nullptr);
+    Node(int start, RailColor rail = JOKER, Node * parent = nullptr);
     std::vector<Node *> buildSuccessors();
     int getStationId();
     Node * getParent();

@@ -133,11 +133,14 @@ Node::Node(int station, RailColor rail, Node * parent){
     // Estimating time based on average velocity of 30 km/h
     float time = (static_cast<float>(distance))/30;
 
-    if(parent->getRailColor() != this->railColor){
+    // When you switch a rail there is a penality, unless you're comming from
+    // the first node which have a JOKER rail.
+    if((parent->getRailColor() == this->railColor) ||
+      (parent->getRailColor() == JOKER)){
+      this->cost = parent->getCost() + time;
+    } else {
       // We suppose that switching rails cost +4min
       this->cost = parent->getCost() + time + 0.066666667;
-    } else {
-      this->cost = parent->getCost() + time;
     }
 
     this->depth = parent->getDepth() + 1;
